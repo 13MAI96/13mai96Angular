@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="navbar">
+        <div class="logo" (click)="reload()">13MAI96</div>
+        <div class="botones">
+            <button (click)="toHome()" [ngClass]="active == 'home'? 'active' : ''" >Home</button>
+            <button (click)="toProjects()" [ngClass]="active == 'projects'? 'active' : ''">Projects</button>
+            <button (click)="toAboutMe()" [ngClass]="active == 'aboutMe'? 'active' : ''">About</button>
+            <button (click)="changeTheme()">Theme</button>
+        </div>
+    </div>
+    <div class="body">
+        <router-outlet></router-outlet>
+    </div>
+</div>
