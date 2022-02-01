@@ -34,7 +34,7 @@ jobs:
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
         local-dir: dist/
-        server-dir: public_html/
+        server-dir: ./
   # # This workflow contains a single job called "build"
   # build-and-deploy:
   #   # The type of runner that the job will run on
