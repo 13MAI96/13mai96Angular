@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ feature/home ]
   pull_request:
     branches: [ master ]
 
@@ -16,18 +16,36 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-and-deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Init
+        uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: FTP Deployer
+        uses: sand4rt/ftp-deployer@v1.3
+        with:
+          sftp: false # optional
+          host: ftp.fabro.ga # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          port: 21 # optional, default is: 21
+          username: u348691639.13mai96 # FTP username
+          password: Agustin96 # FTP password
+          remote_folder: /home/u348691639/domains/fabro.ga/public_html # optional, remote path of your FTP server
+          local_folder: dist # optional, local path, default is: dist
+          cleanup: false # optional, remove existing files inside FTP remote folder
+          include: 'dist' # optional, e.g. ['dist']
+          exclude: '*' # optional, e.g. ['node_modules/**', '.git/**', '*.env']
+          pasive: true # optional
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
