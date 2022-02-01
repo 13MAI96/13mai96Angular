@@ -33,6 +33,7 @@ jobs:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
+        local-dir: dist
   # # This workflow contains a single job called "build"
   # build-and-deploy:
   #   # The type of runner that the job will run on
@@ -56,8 +57,8 @@ jobs:
   #         sftp: false # optional
   #         host:  ${secrets.FTP_HOST} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
   #         port: 21 # optional, default is: 21
-  #         username: u348691639.13mai96 # FTP username
-  #         password: Agustin96 # FTP password
+  #         username:  # FTP username
+  #         password:  # FTP password
   #         remote_folder: /home/u348691639/domains/fabro.ga/public_html # optional, remote path of your FTP server
   #         local_folder: dist # optional, local path, default is: dist
   #         cleanup: false # optional, remove existing files inside FTP remote folder
