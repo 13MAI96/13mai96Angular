@@ -33,7 +33,7 @@ jobs:
         server: ${{ secrets.FTP_HOST }}
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASS }}
-        local-dir: dist/
+        local-dir: ./dist/
         server-dir: ./
   # # This workflow contains a single job called "build"
   # build-and-deploy:
