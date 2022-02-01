@@ -1,6 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
 
 # Controls when the workflow will run
 on:
@@ -10,45 +7,66 @@ on:
   pull_request:
     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+name: 🚀 Deploy website on push
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build-and-deploy:
-    # The type of runner that the job will run on
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Init
-        uses: actions/checkout@v2
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
+    - name: Use Node.js 14
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+      
+    - name: 🔨 Build Project
+      run: |
+        npm install
+        npm run build
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.2.0
+      with:
+        server: ${{ secrets.FTP_HOST }}
+        username: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PASS }}
+  # # This workflow contains a single job called "build"
+  # build-and-deploy:
+  #   # The type of runner that the job will run on
+  #   runs-on: ubuntu-latest
 
-      - name: FTP Deployer
-        uses: sand4rt/ftp-deployer@v1.3
-        with:
-          sftp: false # optional
-          host:  ${secrets.FTP_HOST} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
-          port: 21 # optional, default is: 21
-          username: u348691639.13mai96 # FTP username
-          password: Agustin96 # FTP password
-          remote_folder: /home/u348691639/domains/fabro.ga/public_html # optional, remote path of your FTP server
-          local_folder: dist # optional, local path, default is: dist
-          cleanup: false # optional, remove existing files inside FTP remote folder
-          include: 'dist' # optional, e.g. ['dist']
-          exclude: '*' # optional, e.g. ['node_modules/**', '.git/**', '*.env']
-          pasive: true # optional
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #     - name: Init
+  #       uses: actions/checkout@v2
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+  #     # Runs a single command using the runners shell
+  #     - name: Install and Build
+  #       run: |
+  #         npm install
+  #         npm run build
+
+  #     - name: FTP Deployer
+  #       uses: sand4rt/ftp-deployer@v1.3
+  #       with:
+  #         sftp: false # optional
+  #         host:  ${secrets.FTP_HOST} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+  #         port: 21 # optional, default is: 21
+  #         username: u348691639.13mai96 # FTP username
+  #         password: Agustin96 # FTP password
+  #         remote_folder: /home/u348691639/domains/fabro.ga/public_html # optional, remote path of your FTP server
+  #         local_folder: dist # optional, local path, default is: dist
+  #         cleanup: false # optional, remove existing files inside FTP remote folder
+  #         include: 'dist' # optional, e.g. ['dist']
+  #         exclude: '*' # optional, e.g. ['node_modules/**', '.git/**', '*.env']
+  #         pasive: true # optional
+
+  #     # Runs a set of commands using the runners shell
+  #     - name: Run a multi-line script
+  #       run: |
+  #         echo Add other actions to build,
+  #         echo test, and deploy your project.
